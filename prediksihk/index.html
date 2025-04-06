@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Prediksi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 1em;
+        }
+
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            /* background-color: black; */
+            border: 2px solid black;
+            padding: .5em;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: .3em;
+        }
+
+        input {
+            display: block;
+            margin: auto;
+            width: 100%;
+            font-size: 1.2em;
+            max-width: 350px;
+            padding: .3em;
+            margin-bottom: .5em;
+            text-align: center;
+        }
+
+        .button-acak {
+            display: block;
+            margin: auto;
+            width: 100%;
+            max-width: 350px;
+            font-size: 1.2em;
+            background-color: #0d6efd;
+            color: white;
+            cursor: pointer;
+            padding: .3em;
+            border-radius: 10px;
+            margin-bottom: 1em;
+        }
+
+        .button-acak:hover {
+            background-color: #0041a3;
+        }
+
+        .container-hasil {
+            border: 1px solid black;
+            padding: .3em;
+            width: 100%;
+            max-width: 350px;
+            margin: auto;
+        }
+
+        .container-hasil table {
+            width: 100%;
+        }
+
+        .container-hasil table thead th {
+            border-bottom: 3px solid black;
+        }
+
+        .container-hasil table tbody tr th{
+            width: 15%;
+        }
+
+        .container-hasil table tbody tr td:first-of-type{
+            width:5%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .container-hasil table tr th, .container-hasil table tr td {
+            padding: .25em;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generator Angka Prediksi Togel</h1>
+        <input type="number" class="input-jumlah-angka" min="4" max="10" placeholder="Jumlah angka ingin diacak (4-10)">
+        <input type="number" class="input-jumlah-2d" min="2" max="10" placeholder="Jumlah pasangan 2D (2-10)">
+        <input type="number" class="input-jumlah-3d" min="2" max="10" placeholder="Jumlah pasangan 3D (2-10)">
+        <input type="number" class="input-jumlah-4d" min="2" max="10" placeholder="Jumlah pasangan 4D (2-10)">
+        <button class="button-acak">Acak Angka</button>
+
+        <div class="container-hasil">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">ANGKA PREDIKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>BBFS</th>
+                        <td>:</td>
+                        <td><span class="hasil-bbfs"></span></td>
+                    </tr>
+                    <tr>
+                        <th>CB</th>
+                        <td>:</td>
+                        <td><span class="hasil-cb"></span></td>
+                    </tr>
+                    <tr>
+                        <th>2D</th>
+                        <td>:</td>
+                        <td><span class="hasil-2d"></span></td>
+                    </tr>
+                    <tr>
+                        <th>3D</th>
+                        <td>:</td>
+                        <td><span class="hasil-3d"></span></td>
+                    </tr>
+                    <tr>
+                        <th>4D</th>
+                        <td>:</td>
+                        <td><span class="hasil-4d"></span></td>
+                    </tr>
+                    <tr>
+                        <th>A.Main</th>
+                        <td>:</td>
+                        <td><span class="hasil-angka-main"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const inputJumlahAngka = document.querySelector('.input-jumlah-angka');
+            const inputJumlah2D = document.querySelector('.input-jumlah-2d');
+            const inputJumlah3D = document.querySelector('.input-jumlah-3d');
+            const inputJumlah4D = document.querySelector('.input-jumlah-4d');
+            const buttonAcak = document.querySelector('.button-acak');
+
+            const hasilBBFS = document.querySelector('.hasil-bbfs');
+            const hasilCB = document.querySelector('.hasil-cb');
+            const hasil2D = document.querySelector('.hasil-2d');
+            const hasil3D = document.querySelector('.hasil-3d');
+            const hasil4D = document.querySelector('.hasil-4d');
+            const hasilAngkaMain = document.querySelector('.hasil-angka-main');
+
+            buttonAcak.addEventListener('click', function() {
+                let jumlahAngka = 0;
+                let jumlah2D = 0;
+                let jumlah3D = 0;
+                let jumlah4D = 0;
+
+                if(inputJumlahAngka.value == '') {
+                      jumlahAngka = 5;
+                } else {
+                    jumlahAngka = inputJumlahAngka.value;
+                }
+
+                if(inputJumlah2D.value == '') {
+                      jumlah2D = 4;
+                } else {
+                    jumlah2D = inputJumlah2D.value;
+                }
+
+                if(inputJumlah3D.value == '') {
+                      jumlah3D = 4;
+                } else {
+                    jumlah3D = inputJumlah3D.value;
+                }
+
+                if(inputJumlah4D.value == '') {
+                      jumlah4D = 4;
+                } else {
+                    jumlah4D = inputJumlah4D.value;
+                }
+
+                if(jumlah2D < 2) {
+                    return alert('Minimal pasangan angka 2D adalah 2');
+                } else if (jumlah2D > 10) {
+                    return alert('Maksimal pasangan angka 2D adalah 10');
+                }
+
+                if(jumlah3D < 2) {
+                    return alert('Minimal pasangan angka 3D adalah 2');
+                } else if (jumlah3D > 10) {
+                    return alert('Maksimal pasangan angka 3D adalah 10');
+                }
+
+                if(jumlah4D < 2) {
+                    return alert('Minimal pasangan angka 3D adalah 2');
+                } else if (jumlah4D > 10) {
+                    return alert('Maksimal pasangan angka 3D adalah 10');
+                }
+                
+                if(jumlahAngka < 4) {
+                    return alert('Minimal jumlah angka acak adalah 4');
+                } else if (jumlahAngka > 10) {
+                    return alert('Maksimal jumlah angka acak adalah 10');
+                }
+
+                const angkaRandom = [];
+
+                for(let i = 0; i < jumlahAngka; i++) {
+                    let newAngkaRandom = Math.floor(Math.random() * 10);
+
+                    while(angkaRandom.includes(newAngkaRandom)) {
+                        newAngkaRandom = Math.floor(Math.random() * 10);
+                    }
+
+                    angkaRandom.push(newAngkaRandom);
+                }
+                
+                let semuaResultAngka4D = get4D(angkaRandom);
+
+                let jumlahArrayHasilAngka = Math.max(jumlah2D, jumlah3D, jumlah4D);
+
+                let resultAngka4D = [];
+                for(let j = 0; j < jumlahArrayHasilAngka; j++) {
+                    let angka4D = semuaResultAngka4D[Math.floor(Math.random() * semuaResultAngka4D.length)];
+
+                    while(resultAngka4D.includes(angka4D)) {
+                        angka4D = semuaResultAngka4D[Math.floor(Math.random() * semuaResultAngka4D.length)];
+                    }
+
+                    resultAngka4D.push(angka4D);
+                }
+
+                // Start Generate Angka 4D
+                const prediksi4D = [];
+                for(let d4 = 0; d4 < jumlah4D; d4++) {
+                    prediksi4D.push(resultAngka4D[d4]);
+                }
+                // End Generate Angka 4D
+
+                // Start Generate Angka 3D
+                const prediksi3D = [];
+                for(let d3 = 0; d3 < jumlah3D; d3++) {
+                    let angka3D = resultAngka4D[d3].slice(1,4);
+                    
+                    prediksi3D.push(angka3D);
+                }
+                // End Generate Angka 3D
+
+                // Start Generate Angka 2D
+                const prediksi2D = [];
+                for(let d2 = 0; d2 < jumlah2D; d2++) {
+                    let angka2D = resultAngka4D[d2].slice(2,4);
+
+                    prediksi2D.push(angka2D);
+                }
+                // End Generate Angka 2D
+
+
+                // Start Generate angka CB
+                let indexForCB = [];
+                let angkaCB = [];
+                for(let cb = 0; cb < 2; cb++) {
+                    let angkaRandomCB = Math.floor(Math.random() * jumlahAngka);
+
+                    while(indexForCB.includes(angkaRandomCB)){
+                        angkaRandomCB = Math.floor(Math.random() * jumlahAngka);
+                    }
+
+                    indexForCB.push(angkaRandomCB);
+                }
+
+                indexForCB.forEach((indexCB) => {
+                    angkaCB.push(angkaRandom[indexCB]);
+                })
+                // End Generate angka CB
+
+                // Start Generate angka main
+                indexForAngkaMain = Math.floor(Math.random() * jumlah4D);
+                angkaMain = prediksi4D[indexForAngkaMain];
+                // End Generate angka main
+            
+                
+                hasilBBFS.innerHTML = angkaRandom.join('*');
+                hasilCB.innerHTML = angkaCB.join(' & ');
+                hasil2D.innerHTML = prediksi2D.join('*');
+                hasil3D.innerHTML = prediksi3D.join('*');
+                hasil4D.innerHTML = prediksi4D.join('*');
+                hasilAngkaMain.innerHTML = angkaMain;
+            })
+        })
+
+        function get4D(angkaArray) {
+            const allAngka4D = [];
+
+            for(let x = 0; x < angkaArray.length; x++ ){
+                for(let y = 0; y < angkaArray.length; y++){
+                    for(let z = 0; z < angkaArray.length; z++){
+                        for(let a = 0; a < angkaArray.length; a++){
+
+                            if(angkaArray[x] != angkaArray[y] && angkaArray[x] != angkaArray['z'] && angkaArray[x] != angkaArray[a] && angkaArray[y] != angkaArray[z] && angkaArray[y] != angkaArray[a] && angkaArray[z] != angkaArray[a]){
+                                const newAngka = angkaArray[x].toString() + angkaArray[y].toString() + angkaArray[z].toString() + angkaArray[a].toString();
+                                    allAngka4D.push(newAngka);
+                            }
+                        }
+                    }                           
+                }
+            }
+
+            return allAngka4D;
+        }
+    </script>
+</body>
+</html>
